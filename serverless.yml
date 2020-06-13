@@ -24,8 +24,8 @@ provider:
 custom:
   deployment:
     profile:
-      dev: pawel
-      prod: pawel
+      dev: default
+      prod: default
     region:
       dev: eu-central-1
       prod: eu-central-1
