@@ -1,0 +1,55 @@
+service: sample-secrets-handling
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  runtime: nodejs12.x
+  profile: ${self:custom.deployment.profile.${self:provider.stage}}
+  region: ${self:custom.deployment.region.${self:provider.stage}}
+  memorySize: 128
+  timeout: 3
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ssm:GetParameters* # needed by Middy
+        - ssm:GetParameter # needed by AWS-SDK
+      Resource:
+        - arn:aws:ssm:eu-central-1:*:parameter/sample/mysecret
+    - Effect: Allow
+      Action:
+        - secretsmanager:GetSecretValue
+      Resource:
+        - arn:aws:secretsmanager:eu-central-1:*:secret:sample/my-second-secret*
+
+custom:
+  deployment:
+    profile:
+      dev: pawel
+      prod: pawel
+    region:
+      dev: eu-central-1
+      prod: eu-central-1
+
+functions:
+  ssmSimple:
+    handler: src/ssm-simple/function.handler
+    description: Get secret from SSM Parameter
+
+  ssmSimpleCache:
+    handler: src/ssm-simpleCache/function.handler
+    description: Get secret from SSM Parameter and cache it
+  
+  smSimpleCache:
+    handler: src/sm-simpleCache/function.handler
+    description: Get secret from Secrets Manager and cache it
+  
+  ssmMiddy:
+    handler: src/ssm-middy/function.handler
+    description: Get secret from SSM Parameter using Middy middleware
+
+  smMiddy:
+    handler: src/sm-middy/function.handler
+    description: Get secret from Secrets Manager using Middy middleware
+
+  
+

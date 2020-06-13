@@ -1,0 +1,19 @@
+{
+  "name": "sample-secrets-handling",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {},
+  "author": "Pawel Zubkiewicz",
+  "license": "MIT",
+  "devDependencies": {
+    "aws-sdk": "^2.606.0",
+    "eslint": "^7.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1"
+  },
+  "dependencies": {
+    "@middy/core": "^1.0.0",
+    "@middy/secrets-manager": "^1.0.0",
+    "@middy/ssm": "^1.0.0"
+  }
+}
